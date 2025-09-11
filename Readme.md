@@ -12,27 +12,17 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 The application uses a Flask-based web framework with a template-driven architecture. The frontend consists of multiple HTML templates that extend a base template for consistency, including:
-- **Home page**: Provides system overview and navigation to main features
+-- **Home page**: Provides system overview and navigation to main features
 ![](screenshots/1.png)
 ![](screenshots/2.png)
 
-
-
-- **Prediction page**: Allows users to input transaction features for fraud detection
+-- **Prediction page**: Allows users to input transaction features for fraud detection
 ![](screenshots/4.png)
 
-
-
-
-
-- **Upload page**: Enables dataset upload for model training
+-- **Upload page**: Enables dataset upload for model training
 ![](screenshots/3.png)
 
-
-
-
-
-- **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
+-- **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
 ![1](screenshots/5.1.png)
 ![2](screenshots/5.2.png)
 
@@ -91,14 +81,14 @@ No external databases or cloud services are currently integrated, with all data 
 
 # Steps to run application:
 1. python -m venv venv        
-   venv\Scripts\activate 
-    or
+   venv\Scripts\activate
+         or
    conda create --name sign python=3.7.1
    conda activate sign
-
-2. pip install -r requirements.txt
-3. python create_models.py 
-4. python main.py       
+   
+3. pip install -r requirements.txt
+4. python create_models.py 
+5. python main.py       
 
 
 
