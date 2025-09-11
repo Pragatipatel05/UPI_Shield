@@ -16,15 +16,28 @@ The application uses a Flask-based web framework with a template-driven architec
 ![](screenshots/1.png)
 ![](screenshots/2.png)
 
+
+
 - **Prediction page**: Allows users to input transaction features for fraud detection
 ![](screenshots/4.png)
+
+
+
+
 
 - **Upload page**: Enables dataset upload for model training
 ![](screenshots/3.png)
 
+
+
+
+
 - **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
-![](screenshots/5.1.png)
-![](screenshots/5.2.png)
+![1](screenshots/5.1.png)
+![2](screenshots/5.2.png)
+
+
+
 
 
 The UI is built with Bootstrap 5 for responsive design and includes Font Awesome icons for enhanced user experience. Custom CSS provides a dark theme optimized for data analysis workflows.
@@ -87,8 +100,6 @@ No external databases or cloud services are currently integrated, with all data 
 3. python create_models.py 
 4. python main.py       
 
-
-# Screenshots:
 
 
 
