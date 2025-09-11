@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - UPIShield{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center min-vh-75">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold mb-3">{{ title or "Result" }}</h1>
+            </div>
+
+            <!-- Main Result Card -->
+            <div class="card bg-dark border-{% if error %}danger{% elif fraud_detected %}warning{% else %}primary{% endif %} result-card mb-4">
+                <div class="card-body p-5 text-center">
+                    {% if error %}
+                        <div class="result-icon text-danger mb-4">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="text-danger mb-4">{{ OUTPUT or "An error occurred" }}</h3>
+                    {% elif fraud_detected %}
+                        <div class="result-icon text-warning mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-warning mb-4">{{ OUTPUT }}</h3>
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Action Required:</strong> This transaction shows signs of fraud. 
+                            Please verify the transaction details and contact your bank if necessary.
+                        </div>
+                    {% elif success %}
+                        <div class="result-icon text-success mb-4">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="text-success mb-4">{{ OUTPUT }}</h3>
+                        {% if not SCORES %}
+                            <div class="alert alert-success" role="alert">
+                                <i class="fas fa-check me-2"></i>
+                                This transaction appears to be legitimate based on our analysis.
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="result-icon text-info mb-4">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3 class="text-info mb-4">{{ OUTPUT or "No result available" }}</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Visualization Chart -->
+            {% if GRAPH %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-center mb-4">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        {% if fraud_detected is defined %}Prediction Confidence{% else %}Model Performance{% endif %}
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ GRAPH }}" 
+                             alt="Analysis Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Model Scores -->
+            {% if SCORES %}
+            <div class="card bg-dark border-info mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-trophy me-2"></i>Model Performance Comparison
+                    </h5>
+                    <div class="row g-3">
+                        {% for model_name, accuracy in SCORES.items() %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="model-score-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">{{ model_name }}</span>
+                                    <span class="badge bg-primary fs-6">{{ "%.2f"|format(accuracy) }}%</span>
+                                </div>
+                                <div class="progress mt-2" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" 
+                                         role="progressbar" 
+                                         style="width: {{ accuracy }}%"
+                                         aria-valuenow="{{ accuracy }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Dataset Statistics Summary -->
+            {% if VISUALIZATIONS and VISUALIZATIONS.stats_summary %}
+            <div class="card bg-dark border-info mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-chart-line me-2"></i>Dataset Overview
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-primary">{{ "{:,}".format(VISUALIZATIONS.stats_summary.total_transactions) }}</div>
+                                <div class="stat-label">Total Transactions</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-danger">{{ "{:,}".format(VISUALIZATIONS.stats_summary.fraud_transactions) }}</div>
+                                <div class="stat-label">Fraud Transactions</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-warning">{{ "%.2f"|format(VISUALIZATIONS.stats_summary.fraud_rate) }}%</div>
+                                <div class="stat-label">Fraud Rate</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-success">₹{{ "{:,.0f}".format(VISUALIZATIONS.stats_summary.avg_amount) }}</div>
+                                <div class="stat-label">Avg. Amount</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-info">{{ "{:,}".format(VISUALIZATIONS.stats_summary.unique_users) }}</div>
+                                <div class="stat-label">Unique Users</div>
+                            </div>
+                        </div>
+                        {% if VISUALIZATIONS.stats_summary.date_range.start_month %}
+                        <div class="col-md-4">
+                            <div class="stat-card text-center">
+                                <div class="stat-number text-secondary">{{ VISUALIZATIONS.stats_summary.date_range.start_month }}/{{ VISUALIZATIONS.stats_summary.date_range.start_year }} - {{ VISUALIZATIONS.stats_summary.date_range.end_month }}/{{ VISUALIZATIONS.stats_summary.date_range.end_year }}</div>
+                                <div class="stat-label">Date Range</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Data Visualizations -->
+            {% if VISUALIZATIONS %}
+            
+            <!-- Fraud Distribution -->
+            {% if VISUALIZATIONS.fraud_distribution %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-chart-pie me-2"></i>Fraud vs Valid Transactions
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.fraud_distribution }}" 
+                             alt="Fraud Distribution Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Transaction Amount Distribution -->
+            {% if VISUALIZATIONS.amount_distribution %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-chart-area me-2"></i>Transaction Amount Distribution
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.amount_distribution }}" 
+                             alt="Amount Distribution Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Transaction Hour Patterns -->
+            {% if VISUALIZATIONS.hour_patterns %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-clock me-2"></i>Transaction Patterns by Hour
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.hour_patterns }}" 
+                             alt="Hour Patterns Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Age Distribution -->
+            {% if VISUALIZATIONS.age_distribution %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-users me-2"></i>Age Distribution by Fraud Status
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.age_distribution }}" 
+                             alt="Age Distribution Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- State-wise Analysis -->
+            {% if VISUALIZATIONS.state_analysis %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-map-marked-alt me-2"></i>State-wise Fraud Analysis
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.state_analysis }}" 
+                             alt="State Analysis Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Monthly Trends -->
+            {% if VISUALIZATIONS.monthly_trends %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-calendar-alt me-2"></i>Monthly Transaction Trends
+                    </h5>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{ VISUALIZATIONS.monthly_trends }}" 
+                             alt="Monthly Trends Chart" 
+                             class="img-fluid rounded shadow"
+                             style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% endif %}
+
+            <!-- Dataset Preview -->
+            {% if TABLE_HTML %}
+            <div class="card bg-dark border-secondary mb-4">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-table me-2"></i>Dataset Preview
+                    </h5>
+                    <div class="table-responsive">
+                        {{ TABLE_HTML|safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-home me-2"></i>Back to Home
+                </a>
+                {% if fraud_detected is defined %}
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-search me-2"></i>Analyze Another Transaction
+                    </a>
+                {% elif SCORES %}
+                    <a href="{{ url_for('upload_page') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-upload me-2"></i>Upload New Dataset
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Security Notice -->
+            {% if fraud_detected %}
+            <div class="card bg-dark border-warning mt-4">
+                <div class="card-body p-4">
+                    <h6 class="card-title text-warning">
+                        <i class="fas fa-shield-alt me-2"></i>Security Recommendations
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Verify transaction details with the recipient
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Contact your bank immediately if unauthorized
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Report to cybercrime helpline: <strong>1930</strong>
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Change UPI PIN if you suspect compromise
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

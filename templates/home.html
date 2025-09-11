@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Home - UPIShield{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-gradient mb-4">
+                    Detect <span class="text-primary">UPI Frauds</span><br>
+                    using Machine Learning
+                </h1>
+                <p class="lead mb-4">
+                    Our advanced ML-based system analyzes transaction patterns to identify
+                    potentially fraudulent activities in UPI payments with high accuracy.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('upload_page') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-upload me-2"></i>Upload Dataset
+                    </a>
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search me-2"></i>Start Detection
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-illustration">
+                    <i class="fas fa-shield-alt hero-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Abstract Section -->
+    <section class="mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card bg-dark border-primary">
+                    <div class="card-body text-center p-5">
+                        <h2 class="card-title mb-4">About Our System</h2>
+                        <p class="card-text lead">
+                            We propose an ML-based fraud detection framework that analyzes transaction data
+                            and identifies potentially fraudulent activities in UPI payments using advanced
+                            machine learning algorithms and pattern recognition techniques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Fraud Techniques -->
+    <section class="mb-5">
+        <h2 class="text-center mb-5">Common Fraud Techniques</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h5>Fake Payment Screenshots</h5>
+                    <p>Doctored images showing fake payments to deceive merchants and individuals.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h5>"Friend in Need" Scams</h5>
+                    <p>Impersonating relatives or friends to request urgent financial help.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h5>Malicious QR Codes</h5>
+                    <p>QR codes that debit money from accounts instead of crediting as expected.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <h5>Screen Monitoring Apps</h5>
+                    <p>Malicious applications that record screen activity to steal PINs and passwords.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h5>Collect Request Frauds</h5>
+                    <p>Fake refund requests that trick users into paying money instead of receiving it.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="fraud-card">
+                    <div class="fraud-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h5>Vishing Attacks</h5>
+                    <p>Voice calls impersonating bank officials to extract sensitive information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Frauds in India -->
+    <section class="mb-5">
+        <h2 class="text-center mb-5">Top Frauds in India</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="fraud-card highlight">
+                    <div class="fraud-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h6>KYC Update Scam</h6>
+                    <p>Tricking users to share KYC details through fake notifications.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="fraud-card highlight">
+                    <div class="fraud-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h6>Fake Customer Care</h6>
+                    <p>Scammers posing as bank helplines to steal credentials.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="fraud-card highlight">
+                    <div class="fraud-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h6>Remote Access Apps</h6>
+                    <p>Attackers gain control via apps like AnyDesk or TeamViewer.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="fraud-card highlight">
+                    <div class="fraud-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h6>Lottery Offers</h6>
+                    <p>False promises of prizes or cashback to lure victims.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recovery Process -->
+    <section>
+        <h2 class="text-center mb-5">UPI Fraud Recovery Process</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card bg-dark border-warning">
+                    <div class="card-body p-5">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <ol class="recovery-steps">
+                                    <li>
+                                        <strong>Immediate Action:</strong> Report the transaction in your UPI app
+                                        immediately.
+                                    </li>
+                                    <li>
+                                        <strong>Contact Bank:</strong> Reach out to your bank with complete transaction
+                                        details.
+                                    </li>
+                                    <li>
+                                        <strong>Cybercrime Helpline:</strong> Call <strong
+                                            class="text-warning">1930</strong> or visit
+                                        <a href="https://cybercrime.gov.in" target="_blank"
+                                            class="text-primary">cybercrime.gov.in</a>.
+                                    </li>
+                                    <li>
+                                        <strong>File FIR:</strong> Visit the nearest cybercrime police station to file
+                                        an FIR.
+                                    </li>
+                                    <li>
+                                        <strong>Escalation:</strong> If unresolved in 30 days, escalate to RBI
+                                        Ombudsman.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <div class="recovery-icon">
+                                    <i class="fas fa-life-ring"></i>
+                                </div>
+                                <p class="mt-3 text-warning fw-bold">Act Fast for Better Recovery Chances</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="img">
+            <div class="row justify-content-center border-primary">
+                <img src="/static/upi_1-removebg-preview.png" alt="recovery steps">
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

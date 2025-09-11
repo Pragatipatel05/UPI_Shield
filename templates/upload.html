@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Dataset - UPIShield{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center min-vh-75">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-3">Upload Training Dataset</h1>
+                <p class="lead text-secondary">
+                    Upload your UPI transaction dataset to train and evaluate fraud detection models
+                </p>
+            </div>
+
+            <div class="card bg-dark border-primary upload-card">
+                <div class="card-body p-5">
+                    <form action="{{ url_for('train') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                        <div class="upload-area mb-4">
+                            <div class="upload-icon mb-3">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h5 class="mb-3">Select Dataset File</h5>
+                            <p class="text-muted mb-4">
+                                Choose a CSV file containing UPI transaction data with features and fraud labels
+                            </p>
+                            
+                            <div class="file-input-wrapper">
+                                <input type="file" 
+                                       class="form-control form-control-lg" 
+                                       name="datasetfile" 
+                                       id="datasetfile" 
+                                       accept=".csv"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="dataset-info mb-4">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-info-circle me-2"></i>Dataset Requirements
+                            </h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    CSV format with proper headers
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Include transaction features (amount, time, location, etc.)
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Binary fraud labels (0 = Valid, 1 = Fraud)
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Minimum 1000 records for effective training
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5" id="trainBtn">
+                                <i class="fas fa-cogs me-2"></i>
+                                <span class="btn-text">Train Model</span>
+                                <span class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sample Dataset Format -->
+            <div class="card bg-dark border-secondary mt-4">
+                <div class="card-body">
+                    <h6 class="card-title text-secondary">
+                        <i class="fas fa-table me-2"></i>Expected Dataset Format
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-sm">
+                            <thead>
+                                <tr>
+                                    <th>trans_hour</th>
+                                    <th>trans_day</th>
+                                    <th>category</th>
+                                    <th>age</th>
+                                    <th>trans_amount</th>
+                                    <th>...</th>
+                                    <th>fraud_risk</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>14</td>
+                                    <td>15</td>
+                                    <td>5</td>
+                                    <td>35</td>
+                                    <td>1250.00</td>
+                                    <td>...</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td>28</td>
+                                    <td>50000.00</td>
+                                    <td>...</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function() {
+    const btn = document.getElementById('trainBtn');
+    const btnText = btn.querySelector('.btn-text');
+    const spinner = btn.querySelector('.spinner-border');
+    
+    btn.disabled = true;
+    btnText.textContent = 'Training Model...';
+    spinner.classList.remove('d-none');
+});
+
+document.getElementById('datasetfile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const fileSize = (file.size / 1024 / 1024).toFixed(2); // MB
+        console.log(`Selected file: ${file.name} (${fileSize} MB)`);
+    }
+});
+</script>
+{% endblock %}
