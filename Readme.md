@@ -27,8 +27,7 @@ The application uses a Flask-based web framework with a template-driven architec
 
 # **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
   
-![Screenshot 1](screenshots/5.1.png)
-![Screenshot 2](screenshots/5.2.png)
+![](screenshots/5.pdf)
 
 
 
