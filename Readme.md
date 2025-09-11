@@ -12,17 +12,21 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 The application uses a Flask-based web framework with a template-driven architecture. The frontend consists of multiple HTML templates that extend a base template for consistency, including:
--- **Home page**: Provides system overview and navigation to main features
+# **Home page**: Provides system overview and navigation to main features
+
 ![](screenshots/1.png)
 ![](screenshots/2.png)
 
--- **Prediction page**: Allows users to input transaction features for fraud detection
+# **Prediction page**: Allows users to input transaction features for fraud detection
+
 ![](screenshots/4.png)
 
--- **Upload page**: Enables dataset upload for model training
+# **Upload page**: Enables dataset upload for model training
+
 ![](screenshots/3.png)
 
--- **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
+# **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
+  
 ![1](screenshots/5.1.png)
 ![2](screenshots/5.2.png)
 
