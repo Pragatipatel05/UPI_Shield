@@ -27,11 +27,8 @@ The application uses a Flask-based web framework with a template-driven architec
 
 # **Results page**: Displays prediction outcomes, model performance metrics, and visualizations
   
-![](screenshots/5.pdf)
-
-
-
-
+![](screenshots/5.1.png)
+![](screenshots/5.2.png)
 
 The UI is built with Bootstrap 5 for responsive design and includes Font Awesome icons for enhanced user experience. Custom CSS provides a dark theme optimized for data analysis workflows.
 
