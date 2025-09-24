@@ -1,7 +1,8 @@
 {
     "Random Forest": 95.32,
-    "Gradient Boosting": 94.38,
     "Logistic Regression": 78.65,
     "SVM": 84.83,
-    "Neural Network": 88.58
+    "Neural Network": 88.58,
+    "Hybrid RF + CNN": 95.69,
+    "Hybrid XGB + DNN": 97.0
 }
