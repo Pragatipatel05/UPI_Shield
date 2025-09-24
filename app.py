@@ -71,13 +71,13 @@ def generate_dataset_visualizations(df):
     try:
         # Set up the color palette for dark theme
         colors = ['#00d4ff', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57']
-        fraud_colors = ['#00d4ff', '#ff6b6b']
+        fraud_colors = ['#ff6b6b','#00d4ff']
         
         # 1. Fraud Distribution Pie Chart
         if 'fraud_risk' in df.columns:
             fig, ax = plt.subplots(figsize=(4, 4), facecolor='#1a1a1a')
             fraud_counts = df['fraud_risk'].value_counts()
-            labels = ['Valid Transactions', 'Fraud Transactions']
+            labels = ['Fraud Transactions', 'Valid Transactions']
             ax.pie(fraud_counts.values, labels=labels, autopct='%1.1f%%', 
                    colors=fraud_colors, startangle=90)
             ax.set_title('Transaction Distribution: Fraud vs Valid', fontsize=8, fontweight='bold', color='white')
