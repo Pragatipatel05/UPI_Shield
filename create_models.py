@@ -14,7 +14,7 @@ import os
 from xgboost import XGBClassifier
 
 
-# TensorFlow/Keras imports for CNN
+# TensorFlow/Keras imports
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv1D, Flatten, InputLayer, Dropout
