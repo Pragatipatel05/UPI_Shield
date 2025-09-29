@@ -116,14 +116,13 @@ All artifacts are stored in the `models/` directory:
    conda create --name upishield python=3.9
    conda activate upishield
 
-   ```
 
 2. Install dependencies:
-
+   ```bash
    pip install -r requirements.txt
 
 3. Train and save models:
-
+   ```bash
    python create_models.py
 
    This will:
@@ -133,6 +132,7 @@ All artifacts are stored in the `models/` directory:
    Save accuracy results in scores.json
 
 4. Run the Flask application:
+   ```bash
    python app.py
    Open browser at:
    http://127.0.0.1:5000/
