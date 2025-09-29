@@ -6,7 +6,7 @@ UPIShield is a machine learning and deep learning–based fraud detection system
 
 The system provides:
 
-- **Real-time fraud detection**: Users can input transaction details and get instant predictions.
+- **Fraud detection**: Users can input transaction details and get instant predictions.
 - **Batch analysis**: Upload CSV datasets for fraud detection on multiple transactions at once.
 - **Hybrid AI models**: Combines traditional ML with deep learning for enhanced accuracy.
 
