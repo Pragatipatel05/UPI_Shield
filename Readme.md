@@ -134,6 +134,7 @@ All artifacts are stored in the `models/` directory:
 4. Run the Flask application:
    ```bash
    python app.py
+   ```
    Open browser at:
    http://127.0.0.1:5000/
 
