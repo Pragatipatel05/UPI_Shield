@@ -1,0 +1,16 @@
+# Web Framework
+flask
+
+# Data & Utilities
+numpy
+pandas
+scikit-learn
+joblib
+
+# Machine Learning Models
+xgboost
+tensorflow
+
+# Optional (only if you use plotting in your training notebooks)
+matplotlib
+seaborn

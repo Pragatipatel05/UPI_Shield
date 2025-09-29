@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Transaction - UPIShield{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center min-vh-75">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-3">Fraud Detection</h1>
+                <p class="lead text-secondary">
+                    Enter transaction details to check for potential fraud
+                </p>
+            </div>
+
+            <div class="card bg-dark border-primary prediction-card">
+                <div class="card-body p-5">
+                    <form action="{{ url_for('detect') }}" method="POST" id="predictForm">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f1" name="f1"
+                                        placeholder="Transaction Hour" step="any" required>
+                                    <!-- <label for="f1" class="text-muted">Transaction Hour (0-23)</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f2" name="f2"
+                                        placeholder="Transaction Day" step="any" required>
+                                    <!-- <label for="f2" class="text-muted">Transaction Day (1-31)</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f3" name="f3"
+                                        placeholder="Transaction Month" step="any" required>
+                                    <!-- <label for="f3" class="text-muted">Transaction Month (1-12)</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f4" name="f4"
+                                        placeholder="Transaction Year" step="any" required>
+                                    <!-- <label for="f4" class="text-muted">Transaction Year</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f5" name="f5"
+                                        placeholder="Category" step="any" required>
+                                    <!-- <label for="f5" class="text-muted">Transaction Category</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f6" name="f6"
+                                        placeholder="UPI Number" step="any" required>
+                                    <!-- <label for="f6" class="text-muted">UPI Number</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f7" name="f7"
+                                        placeholder="User Age" step="any" required>
+                                    <!-- <label for="f7" class="text-muted">User Age</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f8" name="f8"
+                                        placeholder="Transaction Amount" step="0.01" required>
+                                    <!-- <label for="f8" class="text-muted">Transaction Amount (₹)</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f9" name="f9"
+                                        placeholder="State Code" step="any" required>
+                                    <!-- <label for="f9" class="text-muted">State Code</label> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <input type="number" class="form-control bg-dark text-light" id="f10" name="f10"
+                                        placeholder="ZIP Code" step="any" required>
+                                    <!-- <label for="f10" class="text-muted">ZIP Code</label> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5" id="detectBtn">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                <span class="btn-text">Analyze Transaction</span>
+                                <span class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Feature Information -->
+            <div class="card bg-dark border-secondary mt-4">
+                <div class="card-body">
+                    <h6 class="card-title text-secondary mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Feature Information
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <small class="text-secondary">
+                                <strong>Time Features:</strong> Hour (0-23), Day (1-31), Month (1-12), Year
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-secondary">
+                                <strong>User Features:</strong> Age, UPI Number, Location (State, ZIP)
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <small class=" text-secondary">
+                                <strong>Transaction:</strong> Amount in INR, Category code
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-secondary">
+                                <strong>Security:</strong> All data is processed securely and not stored
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.getElementById('predictForm').addEventListener('submit', function () {
+        const btn = document.getElementById('detectBtn');
+        const btnText = btn.querySelector('.btn-text');
+        const spinner = btn.querySelector('.spinner-border');
+
+        btn.disabled = true;
+        btnText.textContent = 'Analyzing...';
+        spinner.classList.remove('d-none');
+    });
+
+    // Auto-fill sample data for testing
+    function fillSampleData() {
+        document.getElementById('f1').value = '1';
+        document.getElementById('f2').value = '1';
+        document.getElementById('f3').value = '1';
+        document.getElementById('f4').value = '2022';
+        document.getElementById('f5').value = '3';
+        document.getElementById('f6').value = '9957000002';
+        document.getElementById('f7').value = '15';
+        document.getElementById('f8').value = '55.81';
+        document.getElementById('f9').value = '14';
+        document.getElementById('f10').value = '62668';
+    }
+
+    // Add sample data + clear all buttons for testing
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    const form = document.querySelector('form');
+    const buttonContainer = form.querySelector('.text-center');
+
+    // Sample data button
+    const sampleBtn = document.createElement('button');
+    sampleBtn.type = 'button';
+    sampleBtn.className = 'btn btn-outline-secondary btn-sm me-3 mb-3';
+    sampleBtn.innerHTML = '<i class="fas fa-flask me-1"></i>Fill Sample Data';
+    sampleBtn.onclick = fillSampleData;
+    buttonContainer.prepend(sampleBtn);
+
+    // Clear all button
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'btn btn-outline-danger btn-sm me-3 mb-3';
+    clearBtn.innerHTML = '<i class="fas fa-trash me-1"></i>Clear All';
+    clearBtn.onclick = () => form.reset();
+    buttonContainer.prepend(clearBtn);
+}
+
+</script>
+{% endblock %}

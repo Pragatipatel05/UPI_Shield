@@ -1,0 +1,8 @@
+{
+    "Random Forest": 95.32,
+    "Logistic Regression": 78.65,
+    "SVM": 84.83,
+    "Neural Network": 88.58,
+    "Hybrid RF + CNN": 95.51,
+    "Hybrid XGB + DNN": 96.82
+}
