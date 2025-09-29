@@ -124,7 +124,7 @@ All artifacts are stored in the `models/` directory:
 3. Train and save models:
    ```bash
    python create_models.py
-
+   ```
    This will:
    Train multiple models
    Save the scaler
